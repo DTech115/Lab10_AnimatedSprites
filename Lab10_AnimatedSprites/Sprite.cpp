@@ -30,7 +30,8 @@ void sprite::drawSprite()
 			prevy = y;
 		}
 		else {
-			al_draw_bitmap(death, prevx, prevy, 0);
+			//places melting ice cube when die :[
+			al_draw_scaled_bitmap(death, 0, 0, al_get_bitmap_width(death), al_get_bitmap_height(death), prevx, prevy, al_get_bitmap_width(death) / 2, al_get_bitmap_height(death) / 2, 0);
 		}
 	}
 	//freeze
@@ -42,9 +43,10 @@ void sprite::drawSprite()
 			al_draw_bitmap(image[curframe], x, y, 0);
 		}
 	}
-	/*else {
+	//do a normal sprite
+	else {
 		al_draw_bitmap(image[curframe], x, y, 0);
-	}*/
+	}
 }
 
 // function to check if sprites collide
