@@ -21,6 +21,7 @@ private:
 	
 	//bool isCollision; //collision check
 	ALLEGRO_COLOR color; //random color
-	
+	float angle = 0; //angle for spin
+
 	ALLEGRO_BITMAP *image[32];
 };
