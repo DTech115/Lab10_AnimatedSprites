@@ -56,6 +56,10 @@ int main(void)
 			for (int i = 0; i < 5; i++) {
 				cirno[i].bouncesprite(width, height);
 			}
+			for (int i = 0; i < 5; i++) {
+				cirno[i].collision(cirno, 5, i, width, height);
+			}
+
 			redraw = true;
 		}
 		else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE)

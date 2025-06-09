@@ -4,11 +4,49 @@
 #include "Sprite.h"
 
 #include <iostream>
+#include <random>
 using namespace std;
 
 void sprite::drawSprite()
 {
-	al_draw_bitmap(image[curframe],x,y,0);
+	ALLEGRO_COLOR color = al_map_rgb(rand() % 255, rand() % 255, rand() % 255);
+	int effect = rand() % 5;
+
+	//spin
+	if (effect == 0) {
+		al_draw_rotated_bitmap(image[curframe], al_get_bitmap_width(image[curframe]) / 2, al_get_bitmap_height(image[curframe]) / 2, x, y, 3, 0);
+	}
+	//scared
+	else if (effect == 1 && isCollision == true) {
+		al_draw_tinted_bitmap(image[curframe], color, x, y, 0);
+	}
+	//baby
+	else if (effect == 2) {
+		al_draw_scaled_bitmap(image[curframe], 0, 0, al_get_bitmap_width(image[curframe]), al_get_bitmap_height(image[curframe]), x, y, al_get_bitmap_width(image[curframe]) / 2, al_get_bitmap_height(image[curframe]) / 2, 0);
+	}
+	//freeze
+	else if (effect == 3) {
+		al_draw_bitmap(image[curframe], x, y, 0);
+	}
+	else {
+		al_draw_bitmap(image[curframe], x, y, 0);
+	}
+}
+
+void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT) {
+	for (int i = 0; i < size; i++) {
+
+		if (i != me) {
+
+			if (x >= sprites[i].getX() - width && x <= sprites[i].getX() + width) {
+
+				if (y >= sprites[i].getY() - height && y <= sprites[i].getY() + height) {
+					x = rand() % WIDTH;
+					y = rand() % HEIGHT;
+				}
+			}
+		}
+	}
 }
 
 void sprite::updatesprite()
@@ -87,8 +125,6 @@ void sprite::load_animated_sprite(int size)
 	curframe = 0;
 	framedelay = 2;
 	framecount = 0;
-
-
 }
 
 sprite::~sprite()
