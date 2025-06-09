@@ -19,7 +19,8 @@ private:
 	int curframe,maxframe,animdir;
 	int framecount,framedelay;
 	
-	bool isCollision;
+	//bool isCollision; //collision check
+	ALLEGRO_COLOR color; //random color
 	
 	ALLEGRO_BITMAP *image[32];
 };

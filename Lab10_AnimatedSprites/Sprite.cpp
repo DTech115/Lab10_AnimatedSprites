@@ -9,15 +9,16 @@ using namespace std;
 
 void sprite::drawSprite()
 {
-	ALLEGRO_COLOR color = al_map_rgb(rand() % 255, rand() % 255, rand() % 255);
-	int effect = rand() % 5;
+
+	int effect = 1; // rand() % 5;
 
 	//spin
 	if (effect == 0) {
 		al_draw_rotated_bitmap(image[curframe], al_get_bitmap_width(image[curframe]) / 2, al_get_bitmap_height(image[curframe]) / 2, x, y, 3, 0);
 	}
 	//scared
-	else if (effect == 1 && isCollision == true) {
+	else if (effect == 1/* && isCollision == true */ ) {
+
 		al_draw_tinted_bitmap(image[curframe], color, x, y, 0);
 	}
 	//baby
@@ -43,6 +44,8 @@ void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT
 				if (y >= sprites[i].getY() - height && y <= sprites[i].getY() + height) {
 					x = rand() % WIDTH;
 					y = rand() % HEIGHT;
+					//isCollision = true;
+					color = al_map_rgb(rand() % 255, rand() % 255, rand() % 255);
 				}
 			}
 		}
