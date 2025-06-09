@@ -13,7 +13,7 @@ int main(void)
 
 	bool redraw = true;
 	const int FPS = 60;
-
+	int numSprites = 5; //variable for easier editing
 
 	//allegro variable
 	ALLEGRO_DISPLAY *display = NULL;
@@ -42,7 +42,7 @@ int main(void)
 	al_set_target_bitmap(al_get_backbuffer(display));
 	al_start_timer(timer);
 
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < numSprites; i++) {
 		cirno[i].load_animated_sprite(32);
 	}
 
@@ -53,11 +53,11 @@ int main(void)
 
 		if(ev.type == ALLEGRO_EVENT_TIMER)
 		{
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < numSprites; i++) {
 				cirno[i].bouncesprite(width, height);
 			}
-			for (int i = 0; i < 5; i++) {
-				cirno[i].collision(cirno, 5, i, width, height);
+			for (int i = 0; i < numSprites; i++) {
+				cirno[i].collision(cirno, numSprites, i, width, height);
 			}
 
 			redraw = true;
@@ -91,10 +91,10 @@ int main(void)
 
 
 			redraw = false; 
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < numSprites; i++) {
 				cirno[i].updatesprite();
 			}
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < numSprites; i++) {
 				cirno[i].drawSprite();
 			}
 			al_flip_display();

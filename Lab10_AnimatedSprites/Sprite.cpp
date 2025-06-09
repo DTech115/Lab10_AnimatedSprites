@@ -10,15 +10,10 @@ using namespace std;
 void sprite::drawSprite()
 {
 
-	int effect = 2; // rand() % 5;
-
 	//spin
 	if (effect == 0) {
 		angle += 0.1;
-		int cx = al_get_bitmap_width(image[curframe]) / 2;
-		int cy = al_get_bitmap_height(image[curframe]) / 2;
-
-		al_draw_rotated_bitmap(image[curframe], cx, cy, x+cx, y + cy, angle, 0);
+		al_draw_rotated_bitmap(image[curframe], width / 2, height / 2, x + (width / 2), y + (height / 2), angle, 0);
 	}
 	//scared
 	else if (effect == 1) {
@@ -27,7 +22,16 @@ void sprite::drawSprite()
 	}
 	//baby
 	else if (effect == 2) {
-		al_draw_scaled_bitmap(image[curframe], 0, 0, al_get_bitmap_width(image[curframe]), al_get_bitmap_height(image[curframe]), x, y, al_get_bitmap_width(image[curframe]) / 2, al_get_bitmap_height(image[curframe]) / 2, 0);
+		
+		//check if too smol, dead
+		if (alive) {
+			al_draw_scaled_bitmap(image[curframe], 0, 0, width, height, x, y, width * scale, height * scale, 0);
+			prevx = x;
+			prevy = y;
+		}
+		else {
+			al_draw_bitmap(death, prevx, prevy, 0);
+		}
 	}
 	//freeze
 	else if (effect == 3) {
@@ -42,15 +46,29 @@ void sprite::drawSprite()
 void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT) {
 	for (int i = 0; i < size; i++) {
 
-		if (i != me) {
+
+		if (i != me && sprites[i].alive && alive) {
 
 			if (x >= sprites[i].getX() - width && x <= sprites[i].getX() + width) {
 
 				if (y >= sprites[i].getY() - height && y <= sprites[i].getY() + height) {
 					x = rand() % WIDTH;
 					y = rand() % HEIGHT;
-					color = al_map_rgb(rand() % 255, rand() % 255, rand() % 255);
-					
+
+					//scared
+					if (effect == 1) {
+						color = al_map_rgb(rand() % 255, rand() % 255, rand() % 255);
+					}
+					//baby
+					if (effect == 2) {
+						scale *= 0.9;
+						if (scale <= 0.05) {
+							alive = false;
+						}
+					}
+					//freeze
+					if (effect == 3) {}
+
 				}
 			}
 		}
@@ -59,6 +77,10 @@ void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT
 
 void sprite::updatesprite()
 {
+	if (!alive) {
+		return;
+	}
+
 	//update x position
 	if (++xcount > xdelay)
 	{
@@ -116,8 +138,15 @@ void sprite::bouncesprite(int SCREEN_W, int SCREEN_H)
 
 }
 
+//turned into a pseudo constructor
 void sprite::load_animated_sprite(int size)
 {
+	effect = rand() % 5; //applies random effect
+
+	alive = true;
+	angle = 0;
+	scale = 1.0; //start normal size
+
 	//load the animated sprite
 	char s[80];
 	maxframe=size;
@@ -133,12 +162,15 @@ void sprite::load_animated_sprite(int size)
 	curframe = 0;
 	framedelay = 2;
 	framecount = 0;
+
+	death = al_load_bitmap("ice.png");
 }
 
 sprite::~sprite()
 {
 	for(int i = 0; i < maxframe; i++)
 		al_destroy_bitmap(image[i]);
+	al_destroy_bitmap(death);
 }
 
 

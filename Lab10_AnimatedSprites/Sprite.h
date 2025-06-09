@@ -18,10 +18,19 @@ private:
 	int xcount,ycount;
 	int curframe,maxframe,animdir;
 	int framecount,framedelay;
-	
-	//bool isCollision; //collision check
+
+	int effect; // random effect
+
+	//scared
 	ALLEGRO_COLOR color; //random color
-	float angle = 0; //angle for spin
+	//spin
+	float angle; //angle for spin
+	//baby
+	float scale; //start size
+	int prevx, prevy; //for printing position of death
+	bool alive; //scaling status
 
 	ALLEGRO_BITMAP *image[32];
+	ALLEGRO_BITMAP* death;
+
 };
