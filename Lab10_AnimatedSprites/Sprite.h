@@ -19,7 +19,7 @@ private:
 	int curframe,maxframe,animdir;
 	int framecount,framedelay;
 
-	int effect = 0; // random effect
+	int effect; // effect
 
 	//scared
 	ALLEGRO_COLOR color; //random color
@@ -30,7 +30,7 @@ private:
 	int prevx, prevy; //for printing position of death
 	bool alive = true; //scaling status
 	//freeze
-	int frozenX = 0, frozenY = 0;
+	int frozenX = -1, frozenY = -1; //for freezing
 	int freezeTimer = 0; //time calculation
 
 	ALLEGRO_BITMAP *image[32];

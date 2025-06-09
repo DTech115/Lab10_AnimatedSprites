@@ -49,6 +49,12 @@ void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT
 
 		if (i != me) {
 
+			//if dead or frozen, ignore!
+			if (!alive || freezeTimer > 0)
+			{
+				return;
+			}
+
 			if (x >= sprites[i].getX() - width && x <= sprites[i].getX() + width) {
 
 				if (y >= sprites[i].getY() - height && y <= sprites[i].getY() + height) {
@@ -69,6 +75,8 @@ void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT
 					//freeze
 					if (effect == 3) {
 						freezeTimer = 300;
+						frozenX = x;
+						frozenY = y;
 					}
 
 				}
@@ -85,12 +93,11 @@ void sprite::updatesprite()
 	}
 	//check if needs to be frozen
 	if (freezeTimer > 0) {
-		x = 0;
-		y = 0;
+		x = frozenX;
+		y = frozenY;
 		freezeTimer--;
 		return;
 	}
-
 
 	//update x position
 	if (++xcount > xdelay)
