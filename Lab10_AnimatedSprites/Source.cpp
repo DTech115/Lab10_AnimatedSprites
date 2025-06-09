@@ -43,7 +43,7 @@ int main(void)
 	al_start_timer(timer);
 
 	for (int i = 0; i < numSprites; i++) {
-		cirno[i].load_animated_sprite(32);
+		cirno[i].load_animated_sprite(32, i);
 	}
 
 	while(!done)

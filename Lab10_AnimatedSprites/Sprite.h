@@ -4,7 +4,7 @@ public:
 	~sprite();
 	void updatesprite();
 	void bouncesprite(int SCREEN_W, int SCREEN_H);
-	void load_animated_sprite(int size);
+	void load_animated_sprite(int size, int effectType);
 	void drawSprite();
 	int getX(){return x;}
 	int getY(){return y;}
@@ -19,16 +19,19 @@ private:
 	int curframe,maxframe,animdir;
 	int framecount,framedelay;
 
-	int effect; // random effect
+	int effect = 0; // random effect
 
 	//scared
 	ALLEGRO_COLOR color; //random color
 	//spin
-	float angle; //angle for spin
+	float angle = 0; //angle for spin
 	//baby
-	float scale; //start size
+	float scale = 1.0; //start normal size
 	int prevx, prevy; //for printing position of death
-	bool alive; //scaling status
+	bool alive = true; //scaling status
+	//freeze
+	int frozenX = 0, frozenY = 0;
+	int freezeTimer = 0; //time calculation
 
 	ALLEGRO_BITMAP *image[32];
 	ALLEGRO_BITMAP* death;

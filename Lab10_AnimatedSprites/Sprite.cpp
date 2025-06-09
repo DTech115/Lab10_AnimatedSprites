@@ -37,9 +37,9 @@ void sprite::drawSprite()
 	else if (effect == 3) {
 		al_draw_bitmap(image[curframe], x, y, 0);
 	}
-	else {
+	/*else {
 		al_draw_bitmap(image[curframe], x, y, 0);
-	}
+	}*/
 }
 
 // function to check if sprites collide
@@ -47,7 +47,7 @@ void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT
 	for (int i = 0; i < size; i++) {
 
 
-		if (i != me && sprites[i].alive && alive) {
+		if (i != me) {
 
 			if (x >= sprites[i].getX() - width && x <= sprites[i].getX() + width) {
 
@@ -67,7 +67,9 @@ void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT
 						}
 					}
 					//freeze
-					if (effect == 3) {}
+					if (effect == 3) {
+						freezeTimer = 300;
+					}
 
 				}
 			}
@@ -77,9 +79,18 @@ void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT
 
 void sprite::updatesprite()
 {
+	//check if sprite is alive [if it's the scaling kind]
 	if (!alive) {
 		return;
 	}
+	//check if needs to be frozen
+	if (freezeTimer > 0) {
+		x = 0;
+		y = 0;
+		freezeTimer--;
+		return;
+	}
+
 
 	//update x position
 	if (++xcount > xdelay)
@@ -139,13 +150,13 @@ void sprite::bouncesprite(int SCREEN_W, int SCREEN_H)
 }
 
 //turned into a pseudo constructor
-void sprite::load_animated_sprite(int size)
+//added effect number too
+void sprite::load_animated_sprite(int size, int effectType)
 {
-	effect = rand() % 5; //applies random effect
 
-	alive = true;
-	angle = 0;
-	scale = 1.0; //start normal size
+	//effect = rand() % 5; //applies random effect
+	effect = effectType;
+	
 
 	//load the animated sprite
 	char s[80];
@@ -154,7 +165,6 @@ void sprite::load_animated_sprite(int size)
 	{
 		sprintf_s(s,"cirno_%d.png",n);
 		image[n] = al_load_bitmap(s);
-
 		//al_convert_mask_to_alpha(image[n], al_map_rgb(255, 255, 255));
 	}  
 	width=al_get_bitmap_width(image[0]);
