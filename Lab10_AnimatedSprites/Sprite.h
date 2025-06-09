@@ -30,7 +30,7 @@ private:
 	int prevx, prevy; //for printing position of death
 	bool alive = true; //scaling status
 	//freeze
-	int frozenX = -1, frozenY = -1; //for freezing
+	int frozenX = 0, frozenY = 0; //for freezing
 	int freezeTimer = 0; //time calculation
 
 	ALLEGRO_BITMAP *image[32];

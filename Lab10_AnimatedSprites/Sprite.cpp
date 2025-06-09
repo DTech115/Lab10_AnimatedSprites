@@ -35,7 +35,12 @@ void sprite::drawSprite()
 	}
 	//freeze
 	else if (effect == 3) {
-		al_draw_bitmap(image[curframe], x, y, 0);
+		if (freezeTimer > 0) {
+			al_draw_tinted_bitmap(image[curframe], al_map_rgb(120, 220, 255), x, y, 0); //makes it blue if frozen :D
+		}
+		else {
+			al_draw_bitmap(image[curframe], x, y, 0);
+		}
 	}
 	/*else {
 		al_draw_bitmap(image[curframe], x, y, 0);
