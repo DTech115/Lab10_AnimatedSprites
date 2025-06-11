@@ -1,3 +1,5 @@
+//DT Nesimi
+
 class sprite
 {
 public: 
