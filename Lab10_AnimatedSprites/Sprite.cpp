@@ -67,9 +67,7 @@ void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT
 			if (x >= sprites[i].getX() - width && x <= sprites[i].getX() + width) {
 
 				if (y >= sprites[i].getY() - height && y <= sprites[i].getY() + height) {
-					x = rand() % WIDTH;
-					y = rand() % HEIGHT;
-
+					
 					//scared
 					if (effect == 1) {
 						color = al_map_rgb(rand() % 255, rand() % 255, rand() % 255);
@@ -87,6 +85,9 @@ void sprite::collision(sprite sprites[], int size, int me, int WIDTH, int HEIGHT
 						frozenX = x;
 						frozenY = y;
 					}
+					//moved to below freeze effect to stop freeze from teleporting
+					x = rand() % WIDTH;
+					y = rand() % HEIGHT;
 
 				}
 			}
